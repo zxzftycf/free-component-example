@@ -1,0 +1,106 @@
+{
+    "common_config" : 
+    {
+        "Redis" : 
+        {
+            "redis_host": "127.0.0.1:6379"
+        },
+        "Mysql" : 
+        {
+            "connect_string": "root:123456789@tcp(127.0.0.1:3306)/card_test?charset=utf8"
+        },
+        "Find" : 
+        {
+            "redis_host": "127.0.0.1:6379",
+            "grpc_port": "7457"
+        },
+        "GRPC":
+        {
+            "listen_url": ":7457"
+        },
+        "Log" : 
+        {
+            "open_debug" : "true"
+        },
+        "Lock" : 
+        {
+            "redis_host": "127.0.0.1:6379"
+        }
+    },
+    "must" :
+    {
+        "Find" : {},
+        "Log" : {},
+        "GRPC": {},
+        "Lock": {},
+        "Route": {},
+        "Push": {}
+    },
+    "all_server":
+    {
+        "Redis" : {},
+        "Http" : 
+        {
+            "port": "7460"
+        },
+        "GRPC":
+        {
+            "listen_url": ":7458"
+        },
+        "WebSocket":
+        {
+            "listen_url": ":7459"
+        },
+        "Login" : {},
+        "Find" : 
+        {
+            "grpc_port": "7458"
+        }
+    } ,
+    "websocket_server" :
+    {
+        "GRPC":
+        {
+            "listen_url": ":7458"
+        },
+        "WebSocket":
+        {
+            "listen_url": ":7459",
+            "grpc_port": "7458"
+        },
+        "Find" : 
+        {
+            "grpc_port": "7458"
+        }
+    },
+    "account_server" :
+    {
+        "GRPC":
+        {
+            "listen_url": ":8458"
+        },
+        "Login" : {},
+        "Register" : {},
+        "Find" : 
+        {
+            "grpc_port": "8458"
+        },
+        "Http" : 
+        {
+            "port": "8456"
+        }
+    },
+    "data_server" :
+    {
+        "GRPC":
+        {
+            "listen_url": ":9458"
+        },
+        "Redis" : {},
+        "Mysql" : {},
+        "Find" : 
+        {
+            "grpc_port": "9458"
+        }
+    }
+}

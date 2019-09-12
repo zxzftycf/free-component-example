@@ -1,0 +1,149 @@
+syntax = "proto3"; //指定proto版本
+
+//package proto;
+
+import  "google/protobuf/any.proto";
+
+message MessageLock{
+    string componentName = 1;
+    string lockName = 2;
+    bool isRealLock = 3;
+}
+
+message MessageExtroInfo{
+    string clientConnId = 1;
+    string clientConnIp = 2;
+    string userId = 3;
+    repeated MessageLock locks = 4; 
+}
+
+//定义请求结构
+message HandleMessageRequest{
+    string componentName=1;
+    string methodName=2;
+    google.protobuf.Any messageContent =  3;
+    MessageExtroInfo extroInfo = 4;
+}
+
+//定义响应结构
+message HandleMessageReply{
+    google.protobuf.Any messageContent =  1;
+}
+
+//定义Hello服务
+service GRPCComponent{
+    //定义服务中的方法
+    rpc HandleMessage(HandleMessageRequest)returns (HandleMessageReply){}
+}
+
+enum ErrorCode{
+    InterfaceNotFound = 0; //接口不存在
+    AccountNotFound = 1; //账号不存在
+    AccountExist = 2; //账号已注册
+    DataNotFound = 3; //数据不存在
+    DataExist = 4; //数据已注册
+    GenUuidFailed = 5; //生成uuid失败
+    GenShortIdFailed = 6; //生成短位id失败
+    ServerError = 7; //服务器错误
+}
+
+message ErrorMessage{
+    ErrorCode code = 1;
+    string message = 2;
+}
+
+message EmptyMessage{
+
+}
+
+message PlayerInfo{
+    string uuid = 1;
+    string shortId = 2;
+    string name = 3;
+    uint32 balance = 4;
+}
+
+message ClientRequest{
+    string componentName = 1;
+    string methodName = 2;
+    google.protobuf.Any messageContent = 3;
+}
+
+message ClientReply{
+    string messageName = 1;
+    google.protobuf.Any messageContent = 2;
+}
+
+message LoginRequest{
+    string account=1;
+    string password =  2;
+}
+
+message LoginReply{
+    ErrorMessage errMessage = 1;
+    PlayerInfo playerInfo = 2;
+}
+
+enum RedisMessageType{
+    SetString = 0;
+    SetByte = 1;
+    GetString = 2;
+    GetByte = 3;
+    Delete = 4;
+}
+
+message RedisMessage{
+    RedisMessageType type = 1;
+    string table = 2;
+    string key = 3;
+    string valueString = 4;
+    bytes valueByte = 5;
+}
+
+message MysqlAccountInfo{
+    uint64 auto_id = 1;
+    string uuid = 2;
+    string short_id = 3;
+    string account = 4;
+    string password = 5;
+    int64 update_time = 6;
+    ErrorMessage errMessage = 7;
+}
+
+message MysqlKVMessage{
+    string table_name= 1;
+    uint64 auto_id = 2;
+    string uuid = 3;
+    string short_id = 4;
+    bytes info = 5;
+    int64 update_time = 6;
+    ErrorMessage errMessage = 7;
+}
+
+message RegisterRequest{
+    string account=1;
+    string password =  2;
+}
+
+message RegisterReply{
+    ErrorMessage errMessage = 1;
+}
+
+message LoadPlayerRequest{
+    string uuid=1;
+}
+
+message LoadPlayerReply{
+    ErrorMessage errMessage = 1;
+    PlayerInfo playerInfo = 2;
+}
+
+message NewPlayerRequest{
+    string uuid=1;
+    string short_id=2;
+}
+
+message NewPlayerReply{
+    ErrorMessage errMessage = 1;
+    PlayerInfo playerInfo = 2;
+}
